@@ -1,0 +1,334 @@
+RELEASE NOTES
+=============
+
+Product: Leia Unity Plugin
+
+Version: 0.6.17
+   Date: 10 February 2021
+
+OVERVIEW
+========
+
+This package provides a LeiaCamera component that should be added
+to existing Unity camera. LeiaDisplay component also appears when
+LeiaCamera is added. The LeiaDisplay contains settings that define
+render mode in general, while LeiaCamera controls specific view
+parameters.
+
+KNOWN ISSUES and GENERAL WARNINGS
+=================================
+
+Many known issues with Unity are specific to a non-LTS version of Unity. We recommend only building from supported LTS versions of Unity.
+    Please see the "UNITY VERSION SUPPORT" section for more information on supported LTS versions.
+
+2020-11-09
+    Attempting to use the LeiaMediaRecorder on a Windows dev machine, with build target's graphics API set to a member of the OpenGL family (Core, ES 3), on Unity
+        versions 2018.3 - 2018.4 may result in recorded pixels being vertically squashed. Workaround is to set graphics API to the D3D family or upgrade to
+        Unity 2019.x. Issue replicated on Unity 2018.3.14, 2018.4.23, 2018.4.24. Issue confirmed to not occur on Unity 2017.4.34, Unity 2019.1.0.
+
+2020-11-05
+    Builds from Unity 2019.2 to Android may switch between LightfieldMode On and LightfieldMode Off multiple times as the Android status bar is dismissed.
+    If the device switches between LightfieldMode On and LightfieldMode Off multiple times, the device's backlight may remain on after the app closes.
+    Issue replicated in builds from Unity 2019.2.01, 2019.2.05. Issue confirmed resolved in builds from Unity 2019.02.14, Unity 2019.04.06.
+
+2020-09-24
+    Builds from Unity 2018.3 to Android which call Applicaiton.Quit will not engage the Leia device's backlight when the app is re-opened.
+    This is due to a known bug in Unity which was resolved in Unity 2018.4.6. Issue replicated in Unity 2018.3.14.
+    Workaround is to build with Unity 2018.4.6+.
+
+2020-09-17
+    When building from Unity 2018.3.* to the Lumepad or Hydrogen, closing an app using Application.Quit then re-opening the app from the device's "Recents"
+        tab may trigger an issue where artifacts like LeiaLoft firmware DisplaySDK aar 7.1 (md5 f15b1320...) fail to be reloaded. As a result the the
+        device will be unable to show 3D lit content. This is a known Unity bug. Issue confirmed on Unity 2018.3.14.
+        Issue confirmed to not exist on earlier version Unity 2018.2.2 or later version Unity 2018.4.26
+    Workaround: use Unity 2018.4.6+ https://unity3d.com/unity/whats-new/2018.4.6 see "Fixes"
+
+2020-08-19
+    Added bool ParallaxAutoRotationAnimation property to the LeiaDisplay. When apps play in a fixed orientation, devs can now change at runtime
+        whether a LeiaDisplay rotates parallax cues. Previously users could only change this value using the LeiaDisplay inspector in the Unity editor.
+
+2020-08-11
+    Builds to Android from Unity 2019.1.x with Vulkan graphics API and video content in the scene, may crash on scene load with an error like
+    OMX-VDEC-1080P: Unsupported output color format for c2d (2141391876)
+    OMX-VDEC-1080P: Setting color format failed
+    Workaround is to set your Android graphics API to a target other than Vulkan, or update your Unity editor version.
+    (Player settings -> Player -> Android settings -> Other settings -> (x) Auto graphics API -> move Vulkan to lower priority)
+
+2020-08-07
+    Builds from Unity 2019.1 to Android which use the Android onscreen back button to trigger an app close will not engage the Leia
+        device's backlight when the app is re-opened.
+    This is due to a known bug in Unity which was resolved in Unity 2019.2.2. Issue replicated in Unity 2019.1.6, 2019.1.14, 2019.2.1.
+    Workaround is to build with Unity 2018.4- or 2019.2.2+.
+
+2020-08-07
+    Unity may sometimes deload the shaders that the LeiaLoft Unity SDK needs in order to function. Unity will throw an exception like
+        ArgumentNullException: Value cannot be null.
+        Parameter name: shader
+        ... (at Assets/LeiaLoft/Scripts/Internal/LeiaState/AbstractLeiaStateTemplate.cs:77)
+        NullReferenceException: ...
+        LeiaLoft.AbstractLeiaStateTemplate.GetEmissionX ...
+    Solution is to reimport the assets (Unity > Assets menu > Reimport all)
+
+2020-07_30
+    If user generates tuned content for an Android build / installed Android APK using the LeiaConfigAdjustmentsUI, then rebuilds or
+        reinstalls their APK, their tuning file from previous tuning will affect current output. Users are recommended to tune
+        content in the UnityEditor, rather than in an installed APK.
+
+WHAT'S NEW
+==========
+
+0.6.17
+
+2021_02_09
+    Resolved an issue where setting multiple types of LeiaMedia video content (clip + URL) could introduce conflicts on the VideoPlayer.
+
+2021_02_3
+    Removed video files:
+     - Source/Assets/LeiaLoft/Modules/LeiaMedia/Example/Videos/exampleVideo_2x2.mp4 and
+     - Source/Assets/LeiaLoft/Modules/LeiaMedia/Example/Videos/recording_2x2.mp4
+    From the SDK in favor of DandelionsSnipOgvVP81440_2x2.ogv
+
+2021_01_27
+    Fixed a bug with LeiaMediaViewer which was causing col and row counts to stick to their initial value rather than changing as user updated LeiaMedia.
+        LeiaMedia col and row values now update as
+            - user changes media in inspector (if new media has a name and is parsable), or
+            - user sets values by script and supplies cols, rows as arguments, or
+            - user specifies LeiaMediaViewer.ActiveLeiaMediaRows and LeiaMediaViewer.ActiveLeiaMediaCols
+
+2021_01_26
+    Resolved an issue where changing RenderTechnique (Stereo / Default) could update content without updating LeiaDisplay's inspector.
+
+2021_01_25
+    Fixed a bug with *LeiaStateTemplate where using Ctrl-L menu to reset DisplayConfig would cause refs to ViewCount variables to be dropped.
+
+2021_01_25
+    Fixed a bug with *LeiaStateTemplate where setting camera view count, would cause interlacing steps to be performed with default shader values.
+        
+2021_01_20
+    Resolved an issue appearing in some versions of Unity where setting LeiaDisplay Editor Emulated Device to a landscape config might cause content to be stretched.
+
+2021_01_12
+    Resolved an issue where 4 LeiaViews sould spawn regardless of device configuration then be destroyed once firmware data was pulled
+
+2021_1_5
+    Streamlined About window UX, adding welome screen, consolidating release notes and log settings to one location. Added auto popup functionality.
+
+2020_12_28
+    When LeiaPostEffectsController copies a MonoBehaviour from a root Camera to a LeiaView Camera, it will now set any LeiaView refs, to the LeiaView of that LeiaView's Camera.
+    Modified LeiaPostEffectsController to copy Leia effects to a LeiaView, not a GameObject.
+
+2020_12_23
+    Resolved an issue where the LeiaPostEffectsController would sometimes cause errors regarding calls to Application.isPlaying in constructor.
+
+0.6.16
+
+2020_12_10
+    Added stereo render technique
+
+2020_12_01
+    Implemented DisplayConfig :: ToString. This will provide some debug data to users. Do not rely upon parsing this string; implement a class conversion operator instead.
+
+PREVIOUSLY
+
+0.6.15
+
+2020_11_06
+    Resolved an issue where closing the DisplayConfig tuner (Ctrl-L menu) would sometimes cause interlacing to switch to a 2D style.
+
+2020_11_3
+    Added API overloads for loading Leia Media with custom rows and columns
+
+0.6.14
+
+2020_11_05
+    Added Resolution Scale to LeiaConfigSettingsUI.
+
+2020_10_08
+    Resolved an issue with Unity's Post-Processing Stack Version 2.3 that caused PostProcessingLayers to add redundant CommandBuffers to LeiaViews and
+        unnecessarily remove CommandBuffers from the root Camera. This affected all Unity SDK versions up to 0.6.14.
+        
+    Resolved an issue where convergence plane Editor UI was always drawn for a 2560 x 1440 aspect ratio (1.7777).
+
+2020_10_06
+    Resolved an issue with calculating the LeiaDevice's portrait or landscape orientaiton and passing that info to DisplayConfig in Unity Editor versions 2017.4 - 2019.3
+        would cause content to be stretched.
+
+2020_10_06
+    Resolved issue in Parallax Effect module where gyro would not disable when application is not in focus, draining battery unnecessarily.
+    
+2020_10_02
+    Deprecated LeiaCamera.ClearCommandBuffers. Users should no longer expect the LeiaLoft Unity SDK to automatically clear, release, or remove any of their
+        CommandBuffers. (Users will still have to reattach their CommandBuffers when LeiaViews are reconstructed.)
+
+2020_09_29
+    Added support for AndroidLeiaDevice :: SetDisplayLightBalance. Call with param in range 0 - 1. This modulates the intensity of the Android device's backlight.
+    
+2020_09_18
+    Moved assets in LeiaLoft/Examples/LeiaLogo/Resources to .../LeiaLogo/LeiaLogoData. This excludes the assets from the AssetDatabase by default, which
+        saves 0.4 MB in APKs which do not include the "LeiaLogo" scene in their build.
+
+2020_09_18
+    LeiaViews now take the same renderingPath as was root camera had. Previously, LeiaViews would always use project default renderingPath.
+
+2020_09_15
+    Changed labeling of LeiaDisplay :: RenderModes. RenderModes HPO and 2D are legacy terms; we now think in terms of whether the device's display is in
+        LightfieldMode: On or LighfieldMode: Off.
+    Users should change references to LeiaDisplay.Instance.DesiredLeiaStateID = {"HPO"/"2D"} to LeiaDisplay.Instance.DesiredLightfieldMode = LeiaDisplay.LightfieldMode.On/Off
+
+2020_09_14
+    Added a drop-down menu for selecting an emulated device in editor.
+
+2020_09_08
+    Resolved a Unity Editor 2018.3+ issue with LeiaLoft Unity SDK 0.6.13 where changing the LeiaDisplay's RenderMode would cause content to be stretched.
+    
+2020_09_04
+    Resolved an issue where LeiaMediaRecorder would record views in row-swapped order (wanted 0123, previously got 2301).
+
+2020_09_03
+    Re-enabled alpha blending. This feature had been supported in SDK 0.5.0 (Jan 2019), disabled in SDK 0.6.13 (August 2020) and is now re-enabled.
+        Users who previously had a LeiaDisplay :: Enable Alpha Blending setting in a scene made with LeiaLoft Unity SDK 0.5.0  will need to re-set the
+        LeiaDisplay :: Enable Alpha Blending flag in each scene.
+
+2020_09_03
+    Resolved an issue where display would show views in order 0123 but LeiaMediaView would show content from 3012 in corresponding views.
+
+2020_08_18
+    Changed calling style for LeiaCameraUtils.ScreenPointToRay. Users should now supply a LeiaCamera and screen-space Vector3.
+
+0.6.13
+
+2020_07_30
+    Added support for generating user-tuned parameters in the UnityEditor using the LeiaConfigAdjustmentsUI, which can be shipped in APKs.
+
+2020_07_20
+    Introduced an IFaceTrackingDisplay interface. LeiaDisplay fulfills this interface, allowing it to perform view peeling and field-of-view shifting.
+
+2020_07_17
+	Added stub API for eventual support for Android devices to load additional DisplayConfig info from within their virtual file system.
+
+2020_07_01
+    Resolved an issue where users could accidentally update params on the wrong DisplayConfig. Correct DisplayConfig will now be
+        default DisplayConfig which is modified, users will be warned if their DisplayConfig is null, and users will be warned if they
+        attempt to modify a DisplayConfig other than the default DisplayConfig.
+
+2020-05-12
+  Resolved an issue where retrieving LeiaDisplay.Instance during edit time would cause more LeiaDisplays to spawn.
+        Now retrieving LeiaDisplay.Instance during edit mode returns null.
+        
+	Added EditorWindowUtil for reusable editor window functions
+
+2020-05-01	
+    Adjusted color settings to accomodate ACT/view sharpening on linear color space.
+
+2020-04-28
+  Added release and debug gradle minification to Recommended Settings Window. Any setting beside None will cause backlight failure on Android.
+
+2020-04-24
+    Resolved an issue where selecting LeiaCamera might dirty scene in some versions of Unity (2019?).
+
+2020-04-23
+    Redesigned DisplayConfig saving with json to support Android.
+
+2020-04-22
+    Resolved an issue where GPU memory would continue to be reserved for nonexistent textures.
+
+2020-04-13
+    Added step to clone tags from root camera to LeiaRenderCamera. This may change behavior for users who use Camera.main.
+    Enabled support for multi-LeiaCamera-editing. This support may be changed in the future.
+    Added support for iterating through LeiaViews in a LeiaCamera. Note that LeiaViews may sometimes be null (e.g. on frame 0).
+
+2020-04-13
+    Resolved an issue where converting between orthographic camera and perspective camera would not change interlacing state.
+    Added a method, LeiaDisplay.ForceLeiaStateUpdate(), for forcing a regeneration of interlacing state without changing backlight.
+        This method resolves a specific issue with orthographic / perspective cameras and does not need to be used by external users.
+
+2020-04-08
+    Modified LeiaDisplay's StateChanged delegate to only trigger once per state change.
+        Users who wrote code that reacted to changes in backlight state, or LeiaDisplay's
+        StateChanged callback, should test if behavior changed for them.
+    Reduced the number of calls sent to backlight service per DesiredLeiaState change.
+        Previously 4+ backlight calls would occur each time the interlacing or backlight mode changed.
+
+2020-04-07
+    Added accessor variables for LeiaView's Camera, absolute ID, x position in camera grid, y position in camera grid.
+
+2020-04-03
+    Resolved an issue with state tracking when Android status bar would be pulled down.
+
+2020-04-01
+    Rolled back Display aar to 6.x.x. This resolves an issue where users who pulled down the Android status bar would see parallax content.
+
+2020-03-31
+    Updated Post Processing Stack Camera Reset url
+
+2020-03-30
+    Removed checks for ViewSharpening on LeiaDisplay; users will still be warned to remove ViewSharpening because class is deprecated.
+
+2020-03-30
+    Resolved an issue where orthographic content would be stretched in 2D mode.
+
+2020-03-24
+    Restored the ParallaxEffects module to LeiaLoft modules.
+
+2020-03-24
+    Resolved an issue where parallax auto rotation setting would not remain set.
+
+2020-03-20
+    Extended PPSv2 compatibility back from 2019.1+ to 2018.1+.
+
+2020-03-19
+    Resolved one issue where users would exit app but backlight would remain on.
+
+2020-03-18
+    Resolved a bug where users would encounter a bug when changing LeiaDisplay renderMode in edit mode.
+
+2020-03-16
+    Resolved an issue where tabbing out, then back in, would draw a black screen when trying to build to standalone targets.
+
+2020-03-13
+    Added flags for some build-breaking errors.
+
+2020-03-13:
+    Resolved a bug where backlight would not turn off, or would turn off slowly, after a scene switch.
+
+2020-03-11
+    Resolved an issue where only 4 LeiaViews would show as camera gizmos in editor scene view.
+
+2020-02-10
+    Deprecated LeiaDisplay :: AlphaBlending interlaced content.
+
+2020-02-10
+    Added PreBuildProcess macro for setting settings before build. Enabled wildcard searches in post-build macro.
+
+2020-02-07
+    Patched issues with 2D/HPO switching that appeared ~Jan 7, AKA SDK 0.6.7.
+    Removed support for HDR on interlacing camera, as it was preventing blits to screen in HDRP.
+    Individual LeiaViews still support HDR when root camera has HDR enabled.
+
+2020-01-17
+    Changed scripting API for setting LeiaMedia content on LeiaMediaViewer.
+    When writing C# scripts, instead of assigning LeiaMedia public variables
+    LeiaMediaVideoURL, leiaMediaVideoClip, leiaMediaTexture,
+        set them from script using
+    SetVideoURL, SetVideoClip, SetTexture
+
+2020-01-20
+    Changed LeiaView.AttachCommandBufferToView API. Users should now specify CameraEvent.
+
+2019-12-01
+    Added LeiaMediaViewer - a gameObject which can display prerendered n-view content including textures and movies.
+
+0.5.0
+Improved Leia Remote Module
+Added Parallax Effect Module
+
+
+UNITY VERSION SUPPORT
+=====================
+2017 LTS - 2019 LTS
+
+QUICK START GUIDE
+=================
+
+1)    Import Leia Loft Unity package
+2)    Add LeiaCamera script to Unity Camera

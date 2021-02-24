@@ -1,0 +1,19 @@
+	Leia Auto Focus Add-on
+
+	Description:
+  	Provides functionality for automating the LeiaCamera's convergence distance.
+
+	Quick start:
+  1) Attach LeiaAutoFocus.cs to a GameObject with a LeiaCamera component.
+
+  2) Choose a tracking type.
+     Target:
+     	Drag a GameObject to the Target field.
+     	Convergence will be set on the Target's position. 
+     Auto:
+     	A ray will be cast from the LeiaCamera's center.
+     	Convergence will be set to the hit position of the ray and a Collider.
+
+
+
+

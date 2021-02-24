@@ -1,0 +1,18 @@
+	Leia Remote
+
+	Description:
+  	Enables Leia devices to work with Unity Remote 5 for previewing content.
+
+	Quick start:
+ 1) Install LeiaRemote.apk
+ 2) Install Unity Remote 5
+ 3) Set Unity Editor Game Window resolution to device resolution.
+    The Hydrogen One resolution is 2560x1440 for landscape or 1440x2560 for portrait.
+ 4) Set the following settings in Edit -> Project Settings -> Editor
+    Device: Any Android Device
+    Compression: PNG
+    Resolution: Normal
+ 5) Attach LeiaRemote.cs to a gameObject in scene.
+ 6) Press play and Unity Remote 5 will open automatically.
+
+

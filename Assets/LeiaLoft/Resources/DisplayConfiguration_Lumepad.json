@@ -1,0 +1,128 @@
+{
+    "stringParams": [
+    ],
+    "intParams": [
+        {
+            "Name": "PanelResolution",
+            "Collection": [
+                2560,
+                1600
+            ]
+        },
+        {
+            "Name": "NumViews",
+            "Collection": [
+                4,
+                4
+            ]
+        },
+        {
+            "Name": "DisplaySizeInMm",
+            "Collection": [
+                0,
+                0
+            ]
+        },
+        {
+            "Name": "ViewResolution",
+            "Collection": [
+                640,
+                400
+            ]
+        }
+    ],
+    "boolParams": [
+        {
+            "Name": "Slant",
+            "Collection": [
+                false
+            ]
+        },
+        {
+            "Name": "isSquare",
+            "Collection": [
+                true
+            ]
+        },
+        {
+            "Name": "isSlanted",
+            "Collection": [
+                false
+            ]
+        }
+    ],
+    "floatParams": [
+        {
+            "Name": "ResolutionScale",
+            "Collection": [
+                1.0
+            ]
+        },
+        {
+            "Name": "InterlacingMatrix",
+            "Collection": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "Name": "InterlacingVector",
+            "Collection": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "Name": "Gamma",
+            "Collection": [
+                2.200000047683716
+            ]
+        },
+        {
+            "Name": "Beta",
+            "Collection": [
+                1.399999976158142
+            ]
+        },
+        {
+            "Name": "DotPitchInMm",
+            "Collection": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "Name": "AlignmentOffset",
+            "Collection": [
+                0.0,
+                0.0
+            ]
+        },
+        {
+            "Name": "ActCoefficientsY",
+            "Collection": [
+                0.032000000000000000,
+                0.019999999552965165
+            ]
+        },
+        {
+            "Name": "ActCoefficientsX",
+            "Collection": [
+                0.05000000000000000,
+                0.01500000000000000
+            ]
+        },
+        {
+            "Name": "SystemDisparityPercent",
+            "Collection": [
+                0.012500000186264515
+            ]
+        },
+        {
+            "Name": "SystemDisparityPixels",
+            "Collection": [
+                8.0
+            ]
+        }
+    ]
+}
